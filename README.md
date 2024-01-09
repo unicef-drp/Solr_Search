@@ -28,7 +28,7 @@ About the data source, in SDMX sometimes it is modeled as a dimension, sometimes
 
 As an example of a record (in JSON):
 
-            `"ID": "UNICEF|PT|1.0|PT_ADLS_10-14_LBR_HC|AFG|2014",
+             "ID": "UNICEF|PT|1.0|PT_ADLS_10-14_LBR_HC|AFG|2014",
              "HelixCode": "PT_ADLS_10-14_LBR_HC",
              "Indicator": "Percentage of adolescents (aged 10-14 years) engaged in household chores",
              "Year": "2014",
@@ -98,13 +98,13 @@ As an example of a record (in JSON):
                          "Value": "2013-14"
                      }
                  ]
-             }]`
+             }]
         
 
 How to query Solr (examples)
 ----------------------------
 
-Apache Solr has strong support for nested documents. In order to enable nested documents, all children must have a unique identifier. In our case, children's identifiers are an extension of the parent's identifiers. So, for example, the attribute with ID:  
+Apache Solr has strong support for nested documents. To enable nested documents, all children must have a unique identifier. In our case, children's identifiers are an extension of the parent's identifiers. So, for example, the attribute with ID:  
 `"UNICEF|PT|1.0|PT_ADLS_10-14_LBR_HC|AFG|2014|M|Y10T14|_T|_T|_T|_T|UnitOfMeasure"`  
 belongs to the disaggregation with ID:  
 `"UNICEF|PT|1.0|PT_ADLS_10-14_LBR_HC|AFG|2014|M|Y10T14|_T|_T|_T|_T"`  
@@ -113,21 +113,22 @@ which belongs to the indicator:
 
 Solr keeps track of the hierarchy in a field called _\_nestpath_. In our index, the hierarchy is expressed in this way:
 
-`_nest_path_:"/Disaggregations"   
-_nest_path_:"/Disaggregations/Attributes"   
-_nest_path_:"/Disaggregations/Dimensions"`
+     _nest_path_:"/Disaggregations"  
+     _nest_path_:"/Disaggregations/Attributes"  
+     _nest_path_:"/Disaggregations/Dimensions"
 
 When you query Solr, you can use the field `q` to type your query. In addition, the field `fl` can be used to retrieve specific fields of documents that match the query. For example, if you are matching a ROOT document and you want to see the whole hierarchy, `fl` must be `*,[child]`. By default, only 10 children are displayed. If your document has more than 10 children, you can change this parameter using the "limit" option: `*,[child limit=100]` Other combinations are possible, also filtering on fields of children. Solr has a very powerful tool that allows doing a lot of things with hierarchies, for example matching children and retrieving parents. It’s the Block Join Query Parser. You can read [this article](https://sease.io/2019/06/apache-solr-childfilter-transformer.html) if you want to learn more about the queries that you can build.
 
+<a name="index_examples"/>
 The rest of this document provides some examples of queries:
 
 *   [Retrieve an indicator by ID with all the disaggregations](#retrieve-an-indicator-by-id-with-all-disaggregations)
 *   [Retrieve all indicators from a given country in a given year](#retrieve-an-indicator-by-country)
 *   [Filter by one or more domains](#filter-by-a-subset-of-domains)
 *   [Get all the disaggregations whose dimension WEALTH\_QUINTILE is LOWEST](#get-all-disaggregations-whose-dimension-wealth_quintile-is-lowest)
-*   [Limit the output to some children fields](#limit-output-to-some-children-fields)
+*   [Limit the output to some children's fields](#limit-output-to-some-children-fields)
 *   [Limit the output to a subset of domains](#limit-output-to-a-subset-of-domains)
-*   [Limit the output to specific parents fields](#limit-output-to-specific-parent-fields)
+*   [Limit the output to specific parent fields](#limit-output-to-specific-parent-fields)
 *   [Query on the code of a dimension (not on the value)](#query-on-the-code-of-a-dimension-and-not-the-value)
 *   [Get all WEALTH\_QUINTILE dimensions available in the index](#get-all-wealth_quintile-dimensions-available-in-the-index)
 *   [Filter on data sources](#filter-on-data-sources)
@@ -153,6 +154,7 @@ Remove the `fl` filter to retrieve only the ROOT, so the indicator with total va
 [Link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=ID%3A%22UNICEF%7CPT%7C1.0%7CPT_ADLS_10-14_LBR_HC%7CCOD%7C2014%22)
 
 ### Retrieve all indicators from a given country in a given year
+<a name="retrieve-an-indicator-by-country"/>
 
 [Back to all examples](#index_examples)
 
@@ -167,6 +169,7 @@ fl
 [Link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2Bcontent_type%3A%22indicator%22%20%2BCountryCode%3A%22COD%22%20%2BYear%3A2013)
 
 ### Filter by one or more domains
+<a name="filter-by-a-subset-of-domains"/>
 
 [Back to all examples](#index_examples)
 
@@ -176,6 +179,7 @@ Domains are encoded in indicators' IDs. Thus, whatever query you are writing, yo
 `Content type` filter is needed if you want to match ROOT documents, i.e. indicators.
 
 ### Get all the disaggregations whose dimension WEALTH\_QUINTILE is LOWEST
+<a name="get-all-disaggregations-whose-dimension-wealth_quintile-is-lowest"/>
 
 [Back to all examples](#index_examples)
 
@@ -201,9 +205,10 @@ fl
 
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BCode%3A%22Q1%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
-### Limit the output to some children fields
+### Limit the output to some children's fields
+<a name="index_examples"/>
 
-[Back to all examples](#index_examples)
+[Back to all examples](#limit-output-to-some-children-fields)
 
 If we want to limit the returned hierarchy only to the dimension wealth quintile, we can express FL as:
 
@@ -216,6 +221,7 @@ In this case, the output contains all the disaggregations matching the query wit
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20childFilter%3DName%3AWEALTH_QUINTILE%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Limit the output to a subset of domains
+<a name="limit-output-to-a-subset-of-domains"/>
 
 [Back to all examples](#index_examples)
 
@@ -225,7 +231,8 @@ q
 
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C[child]&q={!parent which%3D'_nest_path_%3A%22%2FDisaggregations%22 AND (ID%3A(UNICEF|PT*) OR ID%3A(UNICEF|NT*))'}%2BValue%3A%22Lowest%22 %2BName%3A%22WEALTH_QUINTILE%22)
 
-### Limit the output to specific parents fields
+### Limit the output to specific parent fields
+<a name="limit-output-to-specific-parent-fields"/>
 
 [Back to all examples](#index_examples)
 
@@ -238,6 +245,7 @@ fl
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=TotalValue%2CID&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%20AND%20(ID%3A(UNICEF%7CPT*)%20OR%20ID%3A(UNICEF%7CNT*))%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Query on the code of a dimension (not on the value)
+<a name="query-on-the-code-of-a-dimension-and-not-the-value"/>
 
 [Back to all examples](#index_examples)
 
@@ -254,6 +262,7 @@ fl
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BCode%3A%22Q1%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Get all WEALTH\_QUINTILE dimensions available in the index
+<a name="get-all-wealth_quintile-dimensions-available-in-the-index"/>
 
 [Back to all examples](#index_examples)
 
@@ -264,6 +273,7 @@ q
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?q=%2B_nest_path_%3A%22%2FDisaggregations%2FDimensions%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Filter on data sources
+<a name="filter-on-data-sources"/>
 
 [Back to all examples](#index_examples)
 
@@ -279,7 +289,7 @@ fl
 
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2B_nest_path_%3A%22%2FDisaggregations%22%20%2BDATA_SOURCE%3A%22Living%20Conditions%20Survey%202013-14%22)
 
-When disaggregations are not available but total value is available, the data source is represented as an attribute of the ROOT element, together with the value. To discover all indicators having a data source for their total value, we can query Solr in two ways:
+When disaggregations are not available but the total value is available, the data source is represented as an attribute of the ROOT element, together with the value. To discover all indicators having a data source for their total value, we can query Solr in two ways:
 
 q
 
@@ -319,9 +329,10 @@ fl
 
 [link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=(%2Bcontent_type%3A%22indicator%22%20%2BDATA_SOURCE%3A%22TERCE%202013%22)%20OR%20(%2B_nest_path_%3A%22%2FDisaggregations%22%20%2BDATA_SOURCE%3A%22TERCE%202013%22))
 
-The previous query is just an example, since in the current index there are no similar situations at this time. In case there will be, results will be a mix of disaggregations (when the data source provides values at disaggregation level) and ROOT elements (when the data source does not provide any disaggregation)
+The previous query is just an example since in the current index there are no similar situations at this time. In case there will be, results will be a mix of disaggregations (when the data source provides values at disaggregation level) and ROOT elements (when the data source does not provide any disaggregation)
 
 ### Get the most recent version of an indicator
+<a name="get-the-most-recent-version-of-an-indicator"/>
 
 [Back to all examples](#index_examples)
 
