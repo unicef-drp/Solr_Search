@@ -119,7 +119,8 @@ Solr keeps track of the hierarchy in a field called _\_nestpath_. In our index, 
 
 When you query Solr, you can use the field `q` to type your query. In addition, the field `fl` can be used to retrieve specific fields of documents that match the query. For example, if you are matching a ROOT document and you want to see the whole hierarchy, `fl` must be `*,[child]`. By default, only 10 children are displayed. If your document has more than 10 children, you can change this parameter using the "limit" option: `*,[child limit=100]` Other combinations are possible, also filtering on fields of children. Solr has a very powerful tool that allows doing a lot of things with hierarchies, for example matching children and retrieving parents. It’s the Block Join Query Parser. You can read [this article](https://sease.io/2019/06/apache-solr-childfilter-transformer.html) if you want to learn more about the queries that you can build.
 
-<a name="index_examples"/>
+<a name="index_examples"/>  
+
 The rest of this document provides some examples of queries:
 
 *   [Retrieve an indicator by ID with all the disaggregations](#retrieve-an-indicator-by-id-with-all-disaggregations)
