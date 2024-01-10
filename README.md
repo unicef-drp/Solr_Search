@@ -1,19 +1,19 @@
 Introduction
 ------------
 
-The Data and Analytics section (D&A) of UNICEF collects, integrates, analyzes, models, and publishes hundreds of indicators on the state of children and women at global, regional, national, and subnational level. Owing to the wide variety of its data that span many thematic areas it has historically found it challenging to house these data in a central location that is easy to discover, query, and consume.
+The Data and Analytics section (D&A) of UNICEF collects, integrates, analyzes, models, and publishes hundreds of indicators on the state of children and women at the global, regional, national, and subnational levels. Owing to the wide variety of its data that span many thematic areas it has historically found it challenging to house these data in a central location that is easy to discover, query, and consume.
 
 The BMGF-funded Helix project enhances UNICEF’s ability to co-locate and make these public indicators available using a single set of services that conform to the UN-preferred Statistical Data and Metadata eXchange standard (SDMX). In addition, the Helix project works to integrate the business process to deliver consistent and coordinated data.
 
-This project aims at making searches of indicator values convenient, removing some of the query limitations imposed by SDMX, the standard used to exchange statistical data within the Helix project. Youyou can access an Apache Solr API to answer many additional questions, like retrieving all values of indicators with a specific value on a dimension, filtering results by a subset of domains, retrieving all values of indicators related to a specific data source, etc.
+This project aims at making searches of indicator values convenient, removing some of the query limitations imposed by SDMX, the standard used to exchange statistical data within the Helix project. You can access an Apache Solr API to answer many additional questions, like retrieving all values of indicators with a specific value on a dimension, filtering results by a subset of domains, retrieving all values of indicators related to a specific data source, etc.
 
-The Solr index is available [here](https://solr-helix.unicef.org/solr)
+The Solr index is available [here]([https://solr-helix.unicef.org/solr](https://solr-helix.unicef.org/solr/#/))
 
 Guests can query the index using the credentials:
 
-`Username: solr`
+`Username: DAPMRead`
 
-`Password: solr`
+`Password: solrread!`
 
 This user can query the index, but it has no write permissions.
 
@@ -22,7 +22,7 @@ Structure of the index
 
 The index is composed of a set of objects, each one representing a specific indicator of a country in a year. The structure is hierarchical since an indicator is composed of a set of Disaggregations, each one composed of Attributes and Dimensions. There are properties (in Solr they are called **fields**; “property” is a word coming from object-oriented programming) at the level of the ROOT of the indicator (like country, country code, year, total value, data source of total value, etc.) and properties at the level of each disaggregation (like value and data source for that specific disaggregation). Dimensions and Attributes are highly flexible, and they are represented as triples Name, Value, Code, so they are not hardcoded in the index. Still, we can always have new dimensions or attributes and the schema does not change.
 
-About the data source, in SDMX sometimes it is modeled as a dimension, sometimes as an attribute. To make things easier and to enable more powerful queries, in Solr the data source is a property of a disaggregation. In addition, since the ROOT element contains also properties related to the total value of the indicator, the data source related to the total value is repeated there (when the total value is available).
+About the data source, in SDMX sometimes it is modeled as a dimension, sometimes as an attribute. In Solr, the data source is a property of disaggregation to make things easier and to enable more powerful queries. In addition, since the ROOT element also contains properties related to the total value of the indicator, the data source related to the total value is repeated there (when the total value is available).
 
 **A clarification**: the "total value" is the value when all dimensions are “Total”.
 
