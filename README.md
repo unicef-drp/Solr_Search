@@ -7,7 +7,7 @@ The BMGF-funded Helix project enhances UNICEF’s ability to co-locate and make 
 
 This project aims at making searches of indicator values convenient, removing some of the query limitations imposed by SDMX, the standard used to exchange statistical data within the Helix project. You can access an Apache Solr API to answer many additional questions, like retrieving all values of indicators with a specific value on a dimension, filtering results by a subset of domains, retrieving all values of indicators related to a specific data source, etc.
 
-The Solr index is available [here]([https://unicef.searchstax.com/solr](https://unicef.searchstax.com/solr/#/))
+The Solr index is available [here](https://unicef.searchstax.com/solr/#/)
 
 Guests can query the index using the credentials:
 
