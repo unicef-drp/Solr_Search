@@ -7,7 +7,7 @@ The BMGF-funded Helix project enhances UNICEF’s ability to co-locate and make 
 
 This project aims at making searches of indicator values convenient, removing some of the query limitations imposed by SDMX, the standard used to exchange statistical data within the Helix project. You can access an Apache Solr API to answer many additional questions, like retrieving all values of indicators with a specific value on a dimension, filtering results by a subset of domains, retrieving all values of indicators related to a specific data source, etc.
 
-The Solr index is available [here]([https://solr-helix.unicef.org/solr](https://solr-helix.unicef.org/solr/#/))
+The Solr index is available [here]([https://unicef.searchstax.com/solr](https://unicef.searchstax.com/solr/#/))
 
 Guests can query the index using the credentials:
 
@@ -152,7 +152,7 @@ fl
 
 Remove the `fl` filter to retrieve only the ROOT, so the indicator with total value and without disaggregations.
 
-[Link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=ID%3A%22UNICEF%7CPT%7C1.0%7CPT_ADLS_10-14_LBR_HC%7CCOD%7C2014%22)
+[Link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=ID%3A%22UNICEF%7CPT%7C1.0%7CPT_ADLS_10-14_LBR_HC%7CCOD%7C2014%22)
 
 ### Retrieve all indicators from a given country in a given year
 <a name="retrieve-an-indicator-by-country"/>
@@ -167,7 +167,7 @@ fl
 
 `HelixCode`
 
-[Link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2Bcontent_type%3A%22indicator%22%20%2BCountryCode%3A%22COD%22%20%2BYear%3A2013)
+[Link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2Bcontent_type%3A%22indicator%22%20%2BCountryCode%3A%22COD%22%20%2BYear%3A2013)
 
 ### Filter by one or more domains
 <a name="filter-by-a-subset-of-domains"/>
@@ -192,7 +192,7 @@ fl
 
 `*,[child limit=50]`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 This query searches the Value “Lowest” in all Dimensions with name “WEALTH\_QUINTILE” and returns all Disaggregation (the parent filter with the specification of the nest path of the hierarchy) with all Dimensions and Attributes (the `fl` filter). If you prefer to search by code, you can search for "Q1", which is the code for "Lowest":
 
@@ -204,7 +204,7 @@ fl
 
 `*,[child limit=50]`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BCode%3A%22Q1%22%20%2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BCode%3A%22Q1%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Limit the output to some children's fields
 <a name="index_examples"/>
@@ -219,7 +219,7 @@ fl
 
 In this case, the output contains all the disaggregations matching the query with all the properties (indicator value and data source), but without attributes and with the only dimension "wealth quintile".
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20childFilter%3DName%3AWEALTH_QUINTILE%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20childFilter%3DName%3AWEALTH_QUINTILE%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Limit the output to a subset of domains
 <a name="limit-output-to-a-subset-of-domains"/>
@@ -230,7 +230,7 @@ q
 
 `{!parent which='_nest_path_:"/Disaggregations" AND (ID:(UNICEF|PT*) OR ID:(UNICEF|NT*))'}+Value:"Lowest" +Name:"WEALTH_QUINTILE"`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C[child]&q={!parent which%3D'_nest_path_%3A%22%2FDisaggregations%22 AND (ID%3A(UNICEF|PT*) OR ID%3A(UNICEF|NT*))'}%2BValue%3A%22Lowest%22 %2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C[child]&q={!parent which%3D'_nest_path_%3A%22%2FDisaggregations%22 AND (ID%3A(UNICEF|PT*) OR ID%3A(UNICEF|NT*))'}%2BValue%3A%22Lowest%22 %2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Limit the output to specific parent fields
 <a name="limit-output-to-specific-parent-fields"/>
@@ -243,7 +243,7 @@ fl
 
 `ID,TotalValue`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=TotalValue%2CID&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%20AND%20(ID%3A(UNICEF%7CPT*)%20OR%20ID%3A(UNICEF%7CNT*))%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=TotalValue%2CID&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%20AND%20(ID%3A(UNICEF%7CPT*)%20OR%20ID%3A(UNICEF%7CNT*))%27%7D%2BValue%3A%22Lowest%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Query on the code of a dimension (not on the value)
 <a name="query-on-the-code-of-a-dimension-and-not-the-value"/>
@@ -260,7 +260,7 @@ fl
 
 `*,[child limit=50]`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BCode%3A%22Q1%22%20%2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%7B!parent%20which%3D%27_nest_path_%3A%22%2FDisaggregations%22%27%7D%2BCode%3A%22Q1%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Get all WEALTH\_QUINTILE dimensions available in the index
 <a name="get-all-wealth_quintile-dimensions-available-in-the-index"/>
@@ -271,7 +271,7 @@ q
 
 `+_nest_path_:"/Disaggregations/Dimensions" +Name:"WEALTH_QUINTILE"`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?q=%2B_nest_path_%3A%22%2FDisaggregations%2FDimensions%22%20%2BName%3A%22WEALTH_QUINTILE%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?q=%2B_nest_path_%3A%22%2FDisaggregations%2FDimensions%22%20%2BName%3A%22WEALTH_QUINTILE%22)
 
 ### Filter on data sources
 <a name="filter-on-data-sources"/>
@@ -288,7 +288,7 @@ fl
 
 `*,[child limit=50]`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2B_nest_path_%3A%22%2FDisaggregations%22%20%2BDATA_SOURCE%3A%22Living%20Conditions%20Survey%202013-14%22)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2B_nest_path_%3A%22%2FDisaggregations%22%20%2BDATA_SOURCE%3A%22Living%20Conditions%20Survey%202013-14%22)
 
 When disaggregations are not available but the total value is available, the data source is represented as an attribute of the ROOT element, together with the value. To discover all indicators having a data source for their total value, we can query Solr in two ways:
 
@@ -306,7 +306,7 @@ fl
 
 `*,[child limit=50]`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?q=%2Bcontent_type%3A%22indicator%22%20%2BDATA_SOURCE%3A*)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?q=%2Bcontent_type%3A%22indicator%22%20%2BDATA_SOURCE%3A*)
 
 If we want to match a specific data source about indicators' total values:
 
@@ -328,7 +328,7 @@ fl
 
 `*,[child limit=50]`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=(%2Bcontent_type%3A%22indicator%22%20%2BDATA_SOURCE%3A%22TERCE%202013%22)%20OR%20(%2B_nest_path_%3A%22%2FDisaggregations%22%20%2BDATA_SOURCE%3A%22TERCE%202013%22))
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=(%2Bcontent_type%3A%22indicator%22%20%2BDATA_SOURCE%3A%22TERCE%202013%22)%20OR%20(%2B_nest_path_%3A%22%2FDisaggregations%22%20%2BDATA_SOURCE%3A%22TERCE%202013%22))
 
 The previous query is just an example since in the current index there are no similar situations at this time. In case there will be, results will be a mix of disaggregations (when the data source provides values at disaggregation level) and ROOT elements (when the data source does not provide any disaggregation)
 
@@ -355,4 +355,4 @@ rows
 
 `1`
 
-[link](https://solr-helix.unicef.org/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2BCountryCode%3A%22COD%22%2BHelixCode%3A%22PT_ADLS_10-14_LBR_HC%22&rows=1&sort=Year%20desc&start=0)
+[link](https://unicef.searchstax.com/solr/IndicatorsData/select?fl=*%2C%5Bchild%20limit=50%5D&q=%2BCountryCode%3A%22COD%22%2BHelixCode%3A%22PT_ADLS_10-14_LBR_HC%22&rows=1&sort=Year%20desc&start=0)
